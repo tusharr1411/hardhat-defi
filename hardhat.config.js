@@ -117,6 +117,9 @@ module.exports = {
       {
         version: "0.4.24",
       },
+      {
+        version: "0.4.19",
+      },
     ],
   },
   mocha: {
