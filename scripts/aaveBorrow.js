@@ -1,14 +1,17 @@
+const {getWeth} = require("../scripts/getWeth")
 
 
 async function main(){
+    // the protocol treats everything as an ERC20 token
+    await getWeth();
     
 }
 
 
 
 main()
-    .then(() => ProcessingInstruction.exit(0))
+    .then(() => process.exit(0))
     .catch((error) => {
         console.error(error);
-        ProcessingInstruction.exit(1);
+        process.exit(1);
     });
