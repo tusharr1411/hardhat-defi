@@ -31,7 +31,6 @@ async function main() {
     // for this we have getUserAccountData() function in aave
 
     const daiPrice = await getDAIprice();
-    console.log("This is the value: ", daiPrice)
 
 
     const amountDAItoBorrow = availableBorrowsETH.toString()* 0.95 * (1 / daiPrice.toString());
@@ -50,17 +49,9 @@ async function main() {
 
 
 
-
-
-
-
-
-
-
-
-
-      
-
+    //repay the debt
+    await repay(amountDAItoBorrowWei, daiTokenAddress, lendingPool, signer)
+    await getBorrowUserData(lendingPool,signer);
 
 
 }
@@ -116,6 +107,20 @@ async function borrowDai(daiAddress, lendingPool, amountDaiToBorrowWei, account)
     const borrowTx = await lendingPool.borrow(daiAddress, amountDaiToBorrowWei,2,0,account);
     await borrowTx.wait(1);
     console.log(`You have borrowed !`)
+
+}
+
+
+// function to repay
+
+async function repay(amount, daiAddress, lendingPool, account){
+    // const addressOfLendingPool = await lendingPool.getAddress();
+    await approveErc20(daiAddress,lendingPool.target, amount, account);
+    const repayTx = await lendingPool.repay(daiAddress,amount, 2, account)
+    await repayTx.wait(1);
+
+    console.log("Repaid !")
+
 
 }
 
